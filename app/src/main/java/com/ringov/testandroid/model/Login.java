@@ -28,12 +28,11 @@ public class Login {
 
     public void login(Activity activity){
         // TODO vk login
-        //presenter.loginSuccess();
     }
 
-    public boolean checkLoggedIn() {
+    public boolean isLoggedIn() {
         // TODO vk check
-        return true;
+        return true;//VKSdk.isLoggedIn();
     }
 
     public void loginResult(int requestCode, int resultCode, Intent data) {
@@ -47,7 +46,7 @@ public class Login {
             @Override
             public void onError(VKError error) {
                 // User didn't pass Authorization
-                presenter.loginError();
+                presenter.loginError(error.errorMessage);
             }
         };
 

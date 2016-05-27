@@ -16,10 +16,15 @@ public class LoginPresenter extends BasePresenter {
         this.loginModel = new Login(this);
     }
 
-    public void login(Activity activity) {
-        view.showLoading();
+    public boolean isLoggedIn(){
+        return loginModel.isLoggedIn();
+    }
 
-        if(loginModel.checkLoggedIn()){
+    public void login(Activity activity) {
+        //TODO set loading text correctly
+        view.showLoading("Loading");
+
+        if(isLoggedIn()){
             view.success();
         }else{
             loginModel.login(activity);
@@ -35,7 +40,7 @@ public class LoginPresenter extends BasePresenter {
         loginModel.loginResult(requestCode, resultCode, data);
     }
 
-    public void loginError() {
-        view.error();
+    public void loginError(String errorMessage) {
+        view.error(errorMessage);
     }
 }

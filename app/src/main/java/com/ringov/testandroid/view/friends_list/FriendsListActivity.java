@@ -23,4 +23,9 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
 
         presenter = new FriendsListPresenter(this);
     }
+
+    @Override
+    public void success() {
+
+    }
 }

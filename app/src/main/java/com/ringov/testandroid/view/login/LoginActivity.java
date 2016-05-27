@@ -33,6 +33,10 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
         setContentView(R.layout.activity_base);
 
         presenter = new LoginPresenter(this);
+
+        if(presenter.isLoggedIn()){
+            presenter.loginSuccess();
+        }
     }
 
     @Override
@@ -42,19 +46,9 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
     }
 
     @Override
-    public void showLoading() {
-
-    }
-
-    @Override
     public void success() {
         Intent intent = new Intent(this, FriendsListActivity.class);
         startActivity(intent);
         this.finish();
-    }
-
-    @Override
-    public void error() {
-
     }
 }

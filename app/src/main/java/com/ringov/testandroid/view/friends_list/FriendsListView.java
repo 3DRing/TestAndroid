@@ -1,4 +1,6 @@
 package com.ringov.testandroid.view.friends_list;
 
-public interface FriendsListView {
+import com.ringov.testandroid.view.BaseView;
+
+public interface FriendsListView extends BaseView {
 }
