@@ -37,6 +37,9 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
         if(presenter.isLoggedIn()){
             presenter.loginSuccess();
         }
+
+        //String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
+        //Log.d("Fingerprint", fingerprint[0]);
     }
 
     @Override
@@ -51,4 +54,10 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
         startActivity(intent);
         this.finish();
     }
+
+    /*
+    @Override
+    public void superOnActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+    }*/
 }

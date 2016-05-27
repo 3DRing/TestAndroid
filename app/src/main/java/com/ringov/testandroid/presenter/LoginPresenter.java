@@ -43,4 +43,8 @@ public class LoginPresenter extends BasePresenter {
     public void loginError(String errorMessage) {
         view.error(errorMessage);
     }
+/*
+    public void superOnActivityResult(int requestCode, int resultCode, Intent data) {
+        view.superOnActivityResult(requestCode, resultCode, data);
+    }*/
 }

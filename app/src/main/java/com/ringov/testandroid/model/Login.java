@@ -28,11 +28,11 @@ public class Login {
 
     public void login(Activity activity){
         // TODO vk login
+        VKSdk.login(activity,scope);
     }
 
     public boolean isLoggedIn() {
-        // TODO vk check
-        return true;//VKSdk.isLoggedIn();
+        return VKSdk.isLoggedIn();
     }
 
     public void loginResult(int requestCode, int resultCode, Intent data) {
@@ -52,6 +52,7 @@ public class Login {
 
         if (!VKSdk.onActivityResult(requestCode, resultCode, data, callback)) {
             // TODO understand
+            //presenter.superOnActivityResult(requestCode, resultCode, data);
             //super.onActivityResult(requestCode, resultCode, data);
         }
     }
