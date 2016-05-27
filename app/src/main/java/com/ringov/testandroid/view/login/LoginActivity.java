@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ringov.testandroid.R;
-import com.ringov.testandroid.presenter.LoginPresenter;
+import com.ringov.testandroid.presenter.AccessPresenter;
 import com.ringov.testandroid.view.BaseFragment;
 import com.ringov.testandroid.view.SingleFragmentActivity;
 import com.ringov.testandroid.view.friends_list.FriendsListActivity;
@@ -13,7 +13,7 @@ import com.ringov.testandroid.view.friends_list.FriendsListActivity;
 public class LoginActivity extends SingleFragmentActivity implements LoginView {
 
     protected LoginFragment fragment;
-    protected LoginPresenter presenter;
+    protected AccessPresenter presenter;
 
     @Override
     protected BaseFragment createFragment(){
@@ -32,7 +32,12 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        presenter = new LoginPresenter(this);
+        /*
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        */
+
+        presenter = new AccessPresenter(this);
 
         if(presenter.isLoggedIn()){
             presenter.loginSuccess();
@@ -49,12 +54,16 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
     }
 
     @Override
-    public void success() {
+    public void loadingComplete() {
+
+    }
+
+    @Override
+    public void login() {
         Intent intent = new Intent(this, FriendsListActivity.class);
         startActivity(intent);
         this.finish();
     }
-
     /*
     @Override
     public void superOnActivityResult(int requestCode, int resultCode, Intent data) {
