@@ -6,12 +6,15 @@ import android.view.View;
 import android.widget.Button;
 
 import com.ringov.testandroid.R;
+import com.ringov.testandroid.model.User;
 import com.ringov.testandroid.presenter.AccessPresenter;
 import com.ringov.testandroid.presenter.FriendsListPresenter;
 import com.ringov.testandroid.view.BaseFragment;
 import com.ringov.testandroid.view.SingleFragmentActivity;
 import com.ringov.testandroid.view.login.LoginActivity;
 import com.ringov.testandroid.view.login.LoginView;
+
+import java.util.List;
 
 public class FriendsListActivity extends SingleFragmentActivity implements FriendsListView, LogoutView {
 
@@ -39,6 +42,8 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
 
         presenter = new FriendsListPresenter(this);
         logoutPresenter = new AccessPresenter(this);
+
+        presenter.sendFriendsListRequest();
     }
 
     @Override
@@ -51,5 +56,11 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         this.finish();
+    }
+
+    @Override
+    public void showFriends(List<User> friends) {
+        //debug point
+        boolean b = false;
     }
 }
