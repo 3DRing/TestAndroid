@@ -14,6 +14,9 @@ public class LoginFragment extends BaseFragment {
     private View.OnClickListener loginButtonListener;
     private Button loginButton;
 
+    private View.OnClickListener offlineButtonListener;
+    private Button offlineButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,9 @@ public class LoginFragment extends BaseFragment {
 
         loginButton = (Button) v.findViewById(R.id.login_button);
         loginButton.setOnClickListener(loginButtonListener);
+
+        offlineButton = (Button) v.findViewById(R.id.offline_button);
+        offlineButton.setOnClickListener(offlineButtonListener);
         return v;
     }
 
@@ -33,4 +39,7 @@ public class LoginFragment extends BaseFragment {
         loginButtonListener = listener;
     }
 
+    public void setOfflineButtonListener(View.OnClickListener listener){
+        offlineButtonListener = listener;
+    }
 }

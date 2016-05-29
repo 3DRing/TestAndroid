@@ -16,6 +16,8 @@ public class FriendsListFragment extends BaseFragment {
     ListView list;
     private View.OnClickListener logoutButtonClickListener;
     private Button logoutButton;
+    private View.OnClickListener clearCacheListener;
+    private Button clearCacheButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,10 +33,16 @@ public class FriendsListFragment extends BaseFragment {
 
         logoutButton = (Button) v.findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(logoutButtonClickListener);
+        clearCacheButton = (Button) v.findViewById(R.id.clear_cache_button);
+        clearCacheButton.setOnClickListener(clearCacheListener);
         return v;
     }
 
-    public void setLogoutButtonClickListener(View.OnClickListener logoutButtonClickListener) {
-        this.logoutButtonClickListener = logoutButtonClickListener;
+    public void setLogoutButtonClickListener(View.OnClickListener listener) {
+        this.logoutButtonClickListener = listener;
+    }
+
+    public void setClearCacheButtonListener(View.OnClickListener listener){
+        this.clearCacheListener = listener;
     }
 }

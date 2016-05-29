@@ -39,16 +39,16 @@ public class AccessPresenter extends BasePresenter {
         return access.isLoggedIn();
     }
 
-    public void login(Activity activity) {
+    public void login() {
         checkLoginView();
 
         //TODO set loading text correctly
         loginView.showLoading("Loading");
 
         if(isLoggedIn()){
-            loginView.login();
+            loginView.login(true);
         }else{
-            access.login(activity);
+            access.login();
         }
         loginView.loadingComplete();
     }
@@ -57,10 +57,10 @@ public class AccessPresenter extends BasePresenter {
         access.logout();
     }
 
-    public void loginSuccess() {
+    public void loginSuccess(boolean onlineMode) {
         checkLoginView();
 
-        loginView.login();
+        loginView.login(onlineMode);
     }
 
     public void loginActivityResult(int requestCode, int resultCode, Intent data) {
@@ -77,6 +77,10 @@ public class AccessPresenter extends BasePresenter {
         checkLogoutView();
 
         logoutView.logout();
+    }
+
+    public void loginOffline() {
+        access.loginOffline();
     }
 /*
     public void superOnActivityResult(int requestCode, int resultCode, Intent data) {

@@ -21,7 +21,13 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
         fragment.setLoginButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.login(LoginActivity.this);
+                presenter.login();
+            }
+        });
+        fragment.setOfflineButtonListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.loginOffline();
             }
         });
         return fragment;
@@ -30,17 +36,11 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
-
-        /*
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        */
 
         presenter = new AccessPresenter(this);
 
         if(presenter.isLoggedIn()){
-            presenter.loginSuccess();
+            presenter.loginSuccess(true);
         }
 
         //String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
@@ -59,8 +59,11 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
     }
 
     @Override
-    public void login() {
+    public void login(boolean onlineMode) {
         Intent intent = new Intent(this, FriendsListActivity.class);
+        //TODO move hardcode text in const value
+        intent.putExtra("isOnlineMode", onlineMode);
+
         startActivity(intent);
         this.finish();
     }

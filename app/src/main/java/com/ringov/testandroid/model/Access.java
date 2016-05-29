@@ -27,8 +27,8 @@ public class Access {
 
 
 
-    public void login(Activity activity){
-        VKSdk.login(activity,scope);
+    public void login(){
+        VKSdk.login(CurrentContext.getCrtActivity(),scope);
     }
 
     public boolean isLoggedIn() {
@@ -40,7 +40,7 @@ public class Access {
             @Override
             public void onResult(VKAccessToken res) {
                 // User passed Authorization
-                presenter.loginSuccess();
+                presenter.loginSuccess(true);
             }
 
             @Override
@@ -49,10 +49,7 @@ public class Access {
                 String message = error.errorReason;
 
                 //TODO move text of error to res
-                if(message == ""){
-                    message = "Ошибка входа";
-                }
-                presenter.loginError(message);
+                presenter.loginError("Ошибка входа");
             }
         };
 
@@ -66,5 +63,9 @@ public class Access {
     public void logout() {
         VKSdk.logout();
         presenter.logoutSuccess();
+    }
+
+    public void loginOffline() {
+        presenter.loginSuccess(false);
     }
 }

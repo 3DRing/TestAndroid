@@ -20,6 +20,10 @@ public class FriendsListPresenter extends BasePresenter {
         view.showLoading(loadingMessage);
     }
 
+    public void showMessage(String message){
+        view.showMessage(message);
+    }
+
     public void showError(String errorMessage) {
         view.error(errorMessage);
     }
@@ -31,5 +35,13 @@ public class FriendsListPresenter extends BasePresenter {
 
     public void sendFriendsListRequest() {
         model.getFriendsList();
+    }
+
+    public void loadFriendsList() {
+        model.loadFriendsListFromCache();
+    }
+
+    public void clearCache(){
+        model.clearCache();
     }
 }
