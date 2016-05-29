@@ -19,10 +19,11 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
 
     private FriendsListPresenter presenter;
     private AccessPresenter logoutPresenter;
+    private FriendsListFragment fragment;
 
     @Override
     protected BaseFragment createFragment(){
-        FriendsListFragment fragment = new FriendsListFragment();
+        fragment = new FriendsListFragment();
         fragment.setLogoutButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,6 +34,7 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
 
             @Override
             public void onClick(View v) {
+                v.setEnabled(false);
                 presenter.clearCache();
                 Toast.makeText(FriendsListActivity.this, getResources().getString(R.string.lear_cache_message),Toast.LENGTH_SHORT).show();
             }
@@ -44,7 +46,6 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         presenter = new FriendsListPresenter(this);
         logoutPresenter = new AccessPresenter(this);
 
@@ -52,7 +53,9 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
         //TODO move hardcode text in const value
         boolean onlineMode = intent.getBooleanExtra("isOnlineMode",false);
 
+        fragment.setModeOnline(onlineMode);
         if(onlineMode) {
+
             presenter.sendFriendsListRequest();
         }else{
             presenter.loadFriendsList();
@@ -60,20 +63,17 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
     }
 
     @Override
-    public void loadingComplete() {
-
-    }
-
-    @Override
     public void logout() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        this.finish();
+        finish();
     }
 
     @Override
     public void showFriends(List<User> friends) {
-        //debug point
-        boolean b = false;
+        fragment.addAllFriends(friends);
+    }
+
+    @Override
+    public void close() {
+        this.finish();
     }
 }

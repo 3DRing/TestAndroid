@@ -25,7 +25,9 @@ public class FriendsListPresenter extends BasePresenter {
     }
 
     public void showError(String errorMessage) {
+        view.loadingComplete();
         view.error(errorMessage);
+        view.close();
     }
 
     public void showFriends(List<User> friends) {
@@ -34,6 +36,8 @@ public class FriendsListPresenter extends BasePresenter {
     }
 
     public void sendFriendsListRequest() {
+        // TODO remove hardcode text
+        view.showLoading("Загружаем список друзей");
         model.getFriendsList();
     }
 

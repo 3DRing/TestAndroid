@@ -1,8 +1,6 @@
 package com.ringov.testandroid.presenter;
 
-import android.app.Activity;
 import android.content.Intent;
-
 import com.ringov.testandroid.model.Access;
 import com.ringov.testandroid.view.friends_list.LogoutView;
 import com.ringov.testandroid.view.login.LoginView;
@@ -43,14 +41,20 @@ public class AccessPresenter extends BasePresenter {
         checkLoginView();
 
         //TODO set loading text correctly
-        loginView.showLoading("Loading");
+        loginView.showLoading("Логинимся..");
 
+        if(!access.isInternetConnected()){
+            //TODO remove hardcode text
+            loginView.showMessage("Интернет недоступен\nЗагружено из кэша");
+            access.loginOffline();
+            return;
+        }
         if(isLoggedIn()){
+            loginView.loadingComplete();
             loginView.login(true);
         }else{
             access.login();
         }
-        loginView.loadingComplete();
     }
 
     public void logout(){
@@ -60,6 +64,11 @@ public class AccessPresenter extends BasePresenter {
     public void loginSuccess(boolean onlineMode) {
         checkLoginView();
 
+        loginView.loadingComplete();
+        if(!onlineMode) {
+            // TODO remove hardcode text
+            loginView.showMessage("Загружено из кэша");
+        }
         loginView.login(onlineMode);
     }
 
@@ -70,7 +79,8 @@ public class AccessPresenter extends BasePresenter {
     public void loginError(String errorMessage) {
         checkLoginView();
 
-        loginView.error(errorMessage);
+        loginView.loadingComplete();
+        //loginView.error(errorMessage);
     }
 
     public void logoutSuccess() {
@@ -80,10 +90,9 @@ public class AccessPresenter extends BasePresenter {
     }
 
     public void loginOffline() {
+        //TODO set loading text correctly
+        loginView.showLoading("Логинимся..");
+
         access.loginOffline();
     }
-/*
-    public void superOnActivityResult(int requestCode, int resultCode, Intent data) {
-        loginView.superOnActivityResult(requestCode, resultCode, data);
-    }*/
 }

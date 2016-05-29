@@ -1,13 +1,13 @@
 package com.ringov.testandroid.view;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.ringov.testandroid.R;
@@ -39,9 +39,31 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
         CurrentContext.setCrtActivity(this);
     }
 
+    private ProgressDialog loadingDialog;
+
     @Override
     public void showLoading(String loadingMessage){
+        if(loadingDialog == null) {
+            loadingDialog = new ProgressDialog(this);
+            loadingDialog.setTitle(R.string.loading_dialog_title);
+            loadingDialog.setMessage(loadingMessage);
+            loadingDialog.setCancelable(false);
+            loadingDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    SingleFragmentActivity.this.finish();
+                }
+            });
+        }
+        loadingDialog.show();
+    }
 
+    @Override
+    public void loadingComplete() {
+        if(loadingDialog != null && loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
@@ -61,6 +83,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity implement
 
     @Override
     public void showMessage(String message){
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

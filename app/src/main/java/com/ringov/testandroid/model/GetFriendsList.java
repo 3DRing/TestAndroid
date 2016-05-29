@@ -30,6 +30,7 @@ public class GetFriendsList {
 
     public void getFriendsList(){
         VKRequest request = VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS,"id,first_name,last_name"));
+
         request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
@@ -91,7 +92,7 @@ public class GetFriendsList {
         if(jString.equals("")){
             // TODO move hardcode text outside
             presenter.showMessage("Кэш пуст");
-            presenter.showFriends(new ArrayList<User>());
+            presenter.showFriends(null);
             return;
         }
         try {

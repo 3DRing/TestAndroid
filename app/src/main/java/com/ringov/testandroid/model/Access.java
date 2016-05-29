@@ -1,14 +1,15 @@
 package com.ringov.testandroid.model;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.ringov.testandroid.presenter.AccessPresenter;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.VKError;
 
 public class Access {
@@ -31,6 +32,18 @@ public class Access {
         VKSdk.login(CurrentContext.getCrtActivity(),scope);
     }
 
+    public boolean isInternetConnected(){
+        ConnectivityManager conMgr = (ConnectivityManager) CurrentContext.getCrtContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo i = conMgr.getActiveNetworkInfo();
+        if (i == null)
+            return false;
+        if (!i.isConnected())
+            return false;
+        if (!i.isAvailable())
+            return false;
+        return true;
+    }
+
     public boolean isLoggedIn() {
         return VKSdk.isLoggedIn();
     }
@@ -47,17 +60,11 @@ public class Access {
             public void onError(VKError error) {
                 // User didn't pass Authorization
                 String message = error.errorReason;
-
                 //TODO move text of error to res
                 presenter.loginError("Ошибка входа");
             }
         };
-
-        if (!VKSdk.onActivityResult(requestCode, resultCode, data, callback)) {
-            // TODO understand
-            //presenter.superOnActivityResult(requestCode, resultCode, data);
-            //super.onActivityResult(requestCode, resultCode, data);
-        }
+        VKSdk.onActivityResult(requestCode, resultCode, data, callback);
     }
 
     public void logout() {

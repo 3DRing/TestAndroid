@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface FriendsListView extends BaseView {
     void showFriends(List<User> friends);
+    void close();
 }

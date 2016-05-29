@@ -39,10 +39,6 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
 
         presenter = new AccessPresenter(this);
 
-        if(presenter.isLoggedIn()){
-            presenter.loginSuccess(true);
-        }
-
         //String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
         //Log.d("Fingerprint", fingerprint[0]);
     }
@@ -54,22 +50,11 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
     }
 
     @Override
-    public void loadingComplete() {
-
-    }
-
-    @Override
     public void login(boolean onlineMode) {
         Intent intent = new Intent(this, FriendsListActivity.class);
         //TODO move hardcode text in const value
         intent.putExtra("isOnlineMode", onlineMode);
 
         startActivity(intent);
-        this.finish();
     }
-    /*
-    @Override
-    public void superOnActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-    }*/
 }

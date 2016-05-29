@@ -1,27 +1,65 @@
 package com.ringov.testandroid.view.friends_list;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
-public class FriendsListAdapter extends BaseAdapter{
-    @Override
-    public int getCount() {
-        return 0;
+import com.ringov.testandroid.R;
+import com.ringov.testandroid.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.FriendVH>{
+
+    private List<User> friends;
+
+    public FriendsListAdapter(){
+        friends = new ArrayList<>();
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public FriendsListAdapter.FriendVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friends_list_item_view,parent,false);
+        return new FriendVH(view);
     }
 
     @Override
-    public long getItemId(int position) {
-        return 0;
+    public void onBindViewHolder(FriendsListAdapter.FriendVH holder, int position) {
+        User friend = friends.get(position);
+        holder.setFirstName(friend.getFirstName());
+        holder.setLastName(friend.getLastName());
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+    public int getItemCount() {
+        return friends.size();
+    }
+
+    public void addAll(List<User> friends){
+        this.friends.addAll(friends);
+        notifyDataSetChanged();
+    }
+
+    public class FriendVH extends RecyclerView.ViewHolder{
+
+        TextView firstName;
+        TextView lastName;
+
+        public FriendVH(View itemView) {
+            super(itemView);
+            firstName = (TextView) itemView.findViewById(R.id.friends_list_item_first_name_TV);
+            lastName = (TextView) itemView.findViewById(R.id.friends_list_item_last_name_TV);
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName.setText(firstName);
+        }
+
+        public void setLastName(String lastName){
+            this.lastName.setText(lastName);
+        }
     }
 }
