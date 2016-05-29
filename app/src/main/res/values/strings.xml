@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TestAndroid</string>
+    <string name="logout_button">Выход</string>
+    <integer name="com_vk_sdk_AppId">5482086</integer>
+
+    <string name="login_button">Войти через VK</string>
+    <string name="offline_button">Войти оффлайн</string>
+    <string name="login_error_dialog_button">Ок</string>
+    <string name="clear_cache_button">Очистить кэш</string>
+    <string name="login_error_message">Не смогли войти ВК</string>
+    <string name="lear_cache_message">Кэш очищен</string>
+    <string name="loading_dialog_title">Загрузка</string>
+</resources>
