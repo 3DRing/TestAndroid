@@ -15,7 +15,7 @@ import com.ringov.testandroid.view.login.LoginActivity;
 
 import java.util.List;
 
-public class FriendsListActivity extends SingleFragmentActivity implements FriendsListView, LogoutView {
+public class FriendsListActivity extends SingleFragmentActivity implements FriendsListView, LogoutView, FriendsListCallBack {
 
     private FriendsListPresenter presenter;
     private AccessPresenter logoutPresenter;
@@ -24,21 +24,7 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
     @Override
     protected BaseFragment createFragment(){
         fragment = new FriendsListFragment();
-        fragment.setLogoutButtonClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logoutPresenter.logout();
-            }
-        });
-        fragment.setClearCacheButtonListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                v.setEnabled(false);
-                presenter.clearCache();
-                Toast.makeText(FriendsListActivity.this, getResources().getString(R.string.lear_cache_message),Toast.LENGTH_SHORT).show();
-            }
-        });
+        fragment.setCallback(this);
         return fragment;
     }
 
@@ -46,7 +32,7 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new FriendsListPresenter(this);
+        presenter = new FriendsListPresenter(this,this);
         logoutPresenter = new AccessPresenter(this);
 
         Intent intent = getIntent();
@@ -55,7 +41,6 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
 
         fragment.setModeOnline(onlineMode);
         if(onlineMode) {
-
             presenter.sendFriendsListRequest();
         }else{
             presenter.loadFriendsList();
@@ -64,7 +49,7 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
 
     @Override
     public void logout() {
-        finish();
+        this.finish();
     }
 
     @Override
@@ -75,5 +60,16 @@ public class FriendsListActivity extends SingleFragmentActivity implements Frien
     @Override
     public void close() {
         this.finish();
+    }
+
+    @Override
+    public void callLogout() {
+        logoutPresenter.logout();
+    }
+
+    @Override
+    public void callClearCache() {
+        presenter.clearCache();
+        Toast.makeText(FriendsListActivity.this, getResources().getString(R.string.lear_cache_message),Toast.LENGTH_SHORT).show();
     }
 }

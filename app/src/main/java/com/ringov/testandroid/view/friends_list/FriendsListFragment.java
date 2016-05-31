@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.ringov.testandroid.R;
 import com.ringov.testandroid.model.User;
@@ -20,14 +19,14 @@ public class FriendsListFragment extends BaseFragment {
     private RecyclerView list;
     private FriendsListAdapter adapter;
 
-    private View.OnClickListener logoutButtonClickListener;
     private Button logoutButton;
-    private View.OnClickListener clearCacheListener;
     private Button clearCacheButton;
 
     private List<User> tempFriends;
     private boolean modeOnline;
     private boolean cacheIsEmpty;
+
+    private FriendsListCallBack callback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,18 +36,24 @@ public class FriendsListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View v;
-        if(modeOnline){
-            v = inflater.inflate(R.layout.fragment_list_friends_online, parent, false);
-
-            logoutButton = (Button) v.findViewById(R.id.logout_button);
-            logoutButton.setOnClickListener(logoutButtonClickListener);
-        }else{
-            v = inflater.inflate(R.layout.fragment_list_friends_offline,parent,false);
-        }
+        View v = inflater.inflate(R.layout.fragment_list_friends, parent, false);
+        logoutButton = (Button) v.findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.callLogout();
+            }
+        });
+        logoutButton.setVisibility(modeOnline ? View.VISIBLE : View.GONE);
 
         clearCacheButton = (Button) v.findViewById(R.id.clear_cache_button);
-        clearCacheButton.setOnClickListener(clearCacheListener);
+        clearCacheButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setEnabled(false);
+                callback.callClearCache();
+            }
+        });
         if(cacheIsEmpty){
             clearCacheButton.setEnabled(false);
         }
@@ -65,14 +70,6 @@ public class FriendsListFragment extends BaseFragment {
         return v;
     }
 
-    public void setLogoutButtonClickListener(View.OnClickListener listener) {
-        this.logoutButtonClickListener = listener;
-    }
-
-    public void setClearCacheButtonListener(View.OnClickListener listener){
-        this.clearCacheListener = listener;
-    }
-
     public void addAllFriends(List<User> list){
         if(list == null){
             cacheIsEmpty = true;
@@ -87,5 +84,9 @@ public class FriendsListFragment extends BaseFragment {
 
     public void setModeOnline(boolean modeOnline) {
         this.modeOnline = modeOnline;
+    }
+
+    public void setCallback(FriendsListCallBack callback) {
+        this.callback = callback;
     }
 }

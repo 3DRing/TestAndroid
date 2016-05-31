@@ -1,5 +1,6 @@
 package com.ringov.testandroid.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -23,9 +24,11 @@ public class GetFriendsList {
 
     private FriendsListPresenter presenter;
     private List<User> friends;
+    private Activity savingContext;
 
-    public GetFriendsList(FriendsListPresenter presenter){
+    public GetFriendsList(FriendsListPresenter presenter, Activity savingContext){
         this.presenter = presenter;
+        this.savingContext = savingContext;
     }
 
     public void getFriendsList(){
@@ -74,14 +77,14 @@ public class GetFriendsList {
     private final String SAVE_FRIENDS_LIST = "com.ringov.testandroid.friendslist";
 
     public void saveFriendsListJson(String jsonString){
-        SharedPreferences sPref = CurrentContext.getCrtActivity().getSharedPreferences(TEST_ANDROID_PREF,Context.MODE_PRIVATE);
+        SharedPreferences sPref = savingContext.getSharedPreferences(TEST_ANDROID_PREF,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sPref.edit();
         editor.putString(SAVE_FRIENDS_LIST,jsonString);
         editor.commit();
     }
 
     public String loadFriendsListJson(){
-        SharedPreferences sPref = CurrentContext.getCrtActivity().getSharedPreferences(TEST_ANDROID_PREF,Context.MODE_PRIVATE);
+        SharedPreferences sPref = savingContext.getSharedPreferences(TEST_ANDROID_PREF,Context.MODE_PRIVATE);
         String jsonString = sPref.getString(SAVE_FRIENDS_LIST, "");
         return jsonString;
     }
@@ -120,7 +123,7 @@ public class GetFriendsList {
     }
 
     public void clearCache(){
-        SharedPreferences sPref = CurrentContext.getCrtActivity().getSharedPreferences(TEST_ANDROID_PREF,Context.MODE_PRIVATE);
+        SharedPreferences sPref = savingContext.getSharedPreferences(TEST_ANDROID_PREF,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sPref.edit();
         editor.putString(SAVE_FRIENDS_LIST,"");
         editor.commit();

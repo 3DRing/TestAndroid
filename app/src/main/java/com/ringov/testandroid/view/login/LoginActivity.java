@@ -2,15 +2,13 @@ package com.ringov.testandroid.view.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import com.ringov.testandroid.R;
 import com.ringov.testandroid.presenter.AccessPresenter;
 import com.ringov.testandroid.view.BaseFragment;
 import com.ringov.testandroid.view.SingleFragmentActivity;
 import com.ringov.testandroid.view.friends_list.FriendsListActivity;
 
-public class LoginActivity extends SingleFragmentActivity implements LoginView {
+public class LoginActivity extends SingleFragmentActivity implements LoginView, LoginCallBack {
 
     protected LoginFragment fragment;
     protected AccessPresenter presenter;
@@ -18,18 +16,7 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
     @Override
     protected BaseFragment createFragment(){
         fragment = new LoginFragment();
-        fragment.setLoginButtonListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.login();
-            }
-        });
-        fragment.setOfflineButtonListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.loginOffline();
-            }
-        });
+        fragment.setCallBack(this);
         return fragment;
     }
 
@@ -56,5 +43,15 @@ public class LoginActivity extends SingleFragmentActivity implements LoginView {
         intent.putExtra("isOnlineMode", onlineMode);
 
         startActivity(intent);
+    }
+
+    @Override
+    public void callLogin() {
+        presenter.login(LoginActivity.this);
+    }
+
+    @Override
+    public void callLoginOffline() {
+        presenter.loginOffline();
     }
 }

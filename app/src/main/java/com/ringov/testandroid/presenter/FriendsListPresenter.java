@@ -1,7 +1,10 @@
 package com.ringov.testandroid.presenter;
 
+import android.app.Activity;
+
 import com.ringov.testandroid.model.GetFriendsList;
 import com.ringov.testandroid.model.User;
+import com.ringov.testandroid.view.friends_list.FriendsListActivity;
 import com.ringov.testandroid.view.friends_list.FriendsListView;
 
 import java.util.List;
@@ -11,9 +14,9 @@ public class FriendsListPresenter extends BasePresenter {
     private FriendsListView view;
     private GetFriendsList model;
 
-    public FriendsListPresenter(FriendsListView view) {
+    public FriendsListPresenter(FriendsListView view, Activity savingContext) {
         this.view = view;
-        this.model = new GetFriendsList(this);
+        this.model = new GetFriendsList(this,savingContext);
     }
 
     public void showLoading(String loadingMessage) {

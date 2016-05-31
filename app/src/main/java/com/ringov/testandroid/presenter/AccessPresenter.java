@@ -1,6 +1,9 @@
 package com.ringov.testandroid.presenter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import com.ringov.testandroid.model.Access;
 import com.ringov.testandroid.view.friends_list.LogoutView;
 import com.ringov.testandroid.view.login.LoginView;
@@ -37,13 +40,14 @@ public class AccessPresenter extends BasePresenter {
         return access.isLoggedIn();
     }
 
-    public void login() {
+    public void login(Activity activity) {
         checkLoginView();
 
         //TODO set loading text correctly
         loginView.showLoading("Логинимся..");
 
-        if(!access.isInternetConnected()){
+        ConnectivityManager connectivityManager = (ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(!access.isInternetConnected(connectivityManager.getActiveNetworkInfo())){
             //TODO remove hardcode text
             loginView.showMessage("Интернет недоступен\nЗагружено из кэша");
             access.loginOffline();
@@ -53,7 +57,7 @@ public class AccessPresenter extends BasePresenter {
             loginView.loadingComplete();
             loginView.login(true);
         }else{
-            access.login();
+            access.login(activity);
         }
     }
 

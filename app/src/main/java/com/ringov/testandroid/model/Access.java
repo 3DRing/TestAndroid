@@ -1,5 +1,6 @@
 package com.ringov.testandroid.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -28,18 +29,16 @@ public class Access {
 
 
 
-    public void login(){
-        VKSdk.login(CurrentContext.getCrtActivity(),scope);
+    public void login(Activity activity){
+        VKSdk.login(activity,scope);
     }
 
-    public boolean isInternetConnected(){
-        ConnectivityManager conMgr = (ConnectivityManager) CurrentContext.getCrtContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo i = conMgr.getActiveNetworkInfo();
-        if (i == null)
+    public boolean isInternetConnected(NetworkInfo info){
+        if (info == null)
             return false;
-        if (!i.isConnected())
+        if (!info.isConnected())
             return false;
-        if (!i.isAvailable())
+        if (!info.isAvailable())
             return false;
         return true;
     }
